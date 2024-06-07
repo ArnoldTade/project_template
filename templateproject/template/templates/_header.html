@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        {% load bootstrap5 %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}Template {% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}">
+        <script src="{% static 'js/chart.js' %}"></script>
+
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        
+
+    </head>
+    <body >
+      <!-- TOP NAV -->
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-secondary" id="btn-nav" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bi bi-list"></i></button>
+          </div>
+          <div class="col">
+            <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <button class="btn nav-link active" id="btn-chat" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                  <i class="bi bi-chat-right-fill">
+                  </i>
+                </button>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"><i class="bi bi-bell-fill"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- NAV -->
+      <div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+          <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Navbar</h5>
+          </div>
+          <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                  <li class="nav-item">
+                      <a class="nav-link active" href="{% url "home" %}"><i class="bi bi-columns"></i> Dashboard</a>
+                    </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url "profile" %}"> <i class="bi bi-person-fill"></i> Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-table"></i> Tables</a>
+                  </li>
+                  <hr>
+                  <li class="nav-item position-absolute bottom-0">
+                      <a class="nav-link" href="{% url "logout" %}"><i class="bi bi-arrow-bar-left"></i> Logout</a>
+                  </li>
+                </ul>
+          </div>
+      </div>
+
+      <!-- MESSAGE OFFCANVAS -->
+      <div class="offcanvas offcanvas-end" data-bs-scroll="true" id="offcanvasRight" tabindex="-2" data-bs-backdrop="false" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasRightLabel">Chat</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="container">
+            <div class"row">
+              <div class="col-3 p-3 mb-2">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for users in chat_users %}
+                    <tr>
+                      <td> {{ users.username}}</td>
+                    </tr>
+                  {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-3 p-3 mb-2">
+                <input type="text-field">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      {% block content %}
+      
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% endblock %}
+
+       
+      
